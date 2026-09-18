@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "QnAMessage": {
+      "title": "QnA Message",
+      "description": "A message submitted through the public QnA form.",
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Optional nickname of the sender."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["Question", "Idea", "Feedback", "Collaboration", "Other"],
+          "description": "Category of the message."
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "The body of the message."
+        },
+        "createdAt": {
+          "type": "timestamp",
+          "description": "Server timestamp when the message was created."
+        }
+      },
+      "required": ["category", "message", "createdAt"]
+    },
+    "Admin": {
+      "title": "Admin Configuration",
+      "description": "A document identifying an administrator. The document ID is the admin's UID.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email address of the admin."
+        }
+      },
+      "required": ["email"]
+    }
+  },
+  "firestore": {
+    "/qna_messages/{messageId}": {
+      "schema": {
+        "$ref": "#/entities/QnAMessage"
+      },
+      "description": "Collection storing public QnA submissions."
+    },
+    "/admins/{adminId}": {
+      "schema": {
+        "$ref": "#/entities/Admin"
+      },
+      "description": "Collection storing authorized administrator IDs."
+    }
+  }
+}
